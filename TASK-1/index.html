@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Editable Table with Save</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+    <script type="text/javascript">
+        const EditableTable = () => {
+            const [tableData, setTableData] = React.useState([
+                ['Onboarding Call', '', '', ''],
+                ['Google Search Console Access', '', '', ''],
+                ['Google Analytics Access', '', '', ''],
+                ['Website Access', '', '', ''],
+                ['Technical Audit', '', '', ''],
+                ['Anchor Text and Semantic Analysis', '', '', ''],
+                ['Competitor Analysis', '', '', ''],
+                ['Anchor Text / URL Mapping', '', '', ''],
+                ['Google Data Studio Report + Local Reporting Suite', '', '', ''],
+                ['Site Level Optimization', '', '', ''],
+                ['On Page Optimization', '', '', ''],
+                ['Content Creation', '', '', ''],
+                ['Content Publishing', '', '', ''],
+                ['Premium Press Release', '', '', ''],
+                ['Authority Niche Placements', '', '', ''],
+                ['Review Management', '', '', ''],
+                ['Index Links', '', '', ''],
+                ['Video Recap', '', '', '']
+            ]);
+
+            const handleChange = (rowIndex, colIndex, value) => {
+                const updatedTable = tableData.map((row, rIdx) => {
+                    if (rIdx === rowIndex) {
+                        return row.map((cell, cIdx) => (cIdx === colIndex ? value : cell));
+                    }
+                    return row;
+                });
+
+                setTableData(updatedTable);
+            };
+
+            const handleSave = () => {
+                console.log('Saved Table Data:', tableData);
+                alert('Table data saved! Check the console for output.');
+            };
+
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'table',
+                    null,
+                    React.createElement(
+                        'thead',
+                        null,
+                        React.createElement(
+                            'tr',
+                            null,
+                            React.createElement('th', null, 'MONTH 1'),
+                            React.createElement('th', null),
+                            React.createElement('th', null),
+                            React.createElement('th', null)
+                        )
+                    ),
+                    React.createElement(
+                        'tbody',
+                        null,
+                        tableData.map((row, rowIndex) => (
+                            React.createElement(
+                                'tr',
+                                { key: rowIndex },
+                                row.map((cell, colIndex) =>
+                                    React.createElement('td', { key: colIndex },
+                                        React.createElement('input', {
+                                            type: 'text',
+                                            value: cell,
+                                            onChange: (e) => handleChange(rowIndex, colIndex, e.target.value)
+                                        })
+                                    )
+                                )
+                            )
+                        ))
+                    )
+                ),
+                React.createElement(
+                    'button',
+                    { onClick: handleSave },
+                    'Save'
+                )
+            );
+        };
+
+        const rootElement = document.getElementById('root');
+        ReactDOM.createRoot(rootElement).render(React.createElement(EditableTable));
+    </script>
+
+</body>
+
+</html>
